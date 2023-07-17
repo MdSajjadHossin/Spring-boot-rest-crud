@@ -1,7 +1,9 @@
 package com.shossin.demo.rest;
 
 import com.shossin.demo.entity.Student;
+import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,18 +14,34 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentRestController {
 
-    //define endpoint for "/student" - return a list of student
+    private List<Student> theStudents;
+    // define @PostConstructor to load the student data...only once!
 
-    @GetMapping("/student")
-    public List<Student> getStudents(){
+    @PostConstruct
+    public void loadData(){
 
-        List<Student> theStudents = new ArrayList<>();
+        theStudents = new ArrayList<>();
 
         theStudents.add(new Student("Areyan", "Moyeen"));
         theStudents.add(new Student("Siam", "Ahmed"));
         theStudents.add(new Student("Muhit", "Hasna"));
         theStudents.add(new Student("Ayesha", "Noor"));
+    }
 
+    //define endpoint for "/student" - return a list of student
+
+    @GetMapping("/students")
+    public List<Student> getStudents(){
         return theStudents;
     }
-} 
+
+    // define endpoint or "/stydents/{studentId}" - return student at index
+
+    @GetMapping("/students/{studentId}")
+    public Student getStudent(@PathVariable int studentId){
+
+        // just index into the list.... keep it simple for now
+
+        return theStudents.get(studentId);
+    }
+}
