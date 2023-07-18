@@ -33,7 +33,7 @@ public class StudentRestExceptionHandler {
         error.setTimeStamp(System.currentTimeMillis());
         // return ResponseEntity
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
+    }     
 
 
 }
